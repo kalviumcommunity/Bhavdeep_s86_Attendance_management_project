@@ -8,3 +8,10 @@ To run this project:
 
 1. Compile the code: `javac src\com\school\Main.java`
 2. Run the code: `java -cp src com.school.Main`
+
+
+## Part 2 - Core Domain Modelling
+
+- Added `Student` and `Course` classes with constructors and display methods.
+- Created arrays of students and courses.
+- Printed their details using `Main.java`.
