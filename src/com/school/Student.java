@@ -1,15 +1,17 @@
 package com.school;
 
 public class Student {
+    private static int nextStudentIdCounter = 1; // static counter for auto-ID
+    private int studentId;
     private String name;
-    private int id;
 
-    public Student(String name, int id) {
+    // Constructor
+    public Student(String name) {
+        this.studentId = nextStudentIdCounter++;
         this.name = name;
-        this.id = id;
     }
 
     public void display() {
-        System.out.println("Student ID: " + id + ", Name: " + name);
+        System.out.println("Student ID: S" + studentId + ", Name: " + name);
     }
 }
