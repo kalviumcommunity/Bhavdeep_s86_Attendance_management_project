@@ -5,16 +5,28 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // Auto-ID generation for Students
+        // Create Students
         Student[] students = {
-            new Student("Alice"),
-            new Student("Bob"),
-            new Student("Charlie"),
-            new Student("David"),
-            new Student("Eva")
+            new Student("Alice", "Grade 10"),
+            new Student("Bob", "Grade 11"),
+            new Student("Charlie", "Grade 12"),
+            new Student("David", "Grade 10"),
+            new Student("Eva", "Grade 11")
         };
 
-        // Auto-ID generation for Courses
+        // Create Teachers
+        Teacher[] teachers = {
+            new Teacher("Mr. Smith", "Mathematics"),
+            new Teacher("Ms. Johnson", "Physics")
+        };
+
+        // Create Staff
+        Staff[] staffMembers = {
+            new Staff("Mrs. Brown", "Administrator"),
+            new Staff("Mr. Green", "Janitor")
+        };
+
+        // Create Courses
         Course[] courses = {
             new Course("Mathematics"),
             new Course("Physics"),
@@ -24,7 +36,17 @@ public class Main {
 
         System.out.println("Student Details:");
         for (Student s : students) {
-            s.display();
+            s.displayDetails();
+        }
+
+        System.out.println("\nTeacher Details:");
+        for (Teacher t : teachers) {
+            t.displayDetails();
+        }
+
+        System.out.println("\nStaff Details:");
+        for (Staff st : staffMembers) {
+            st.displayDetails();
         }
 
         System.out.println("\nCourse Details:");
@@ -34,10 +56,10 @@ public class Main {
 
         // Attendance Records
         List<AttendanceRecord> attendanceLog = new ArrayList<>();
-        attendanceLog.add(new AttendanceRecord(students[0].getStudentId(), courses[0].getCourseId(), "Present"));
-        attendanceLog.add(new AttendanceRecord(students[1].getStudentId(), courses[1].getCourseId(), "Absent"));
-        attendanceLog.add(new AttendanceRecord(students[2].getStudentId(), courses[2].getCourseId(), "Late")); // invalid
-        attendanceLog.add(new AttendanceRecord(students[3].getStudentId(), courses[0].getCourseId(), "Present"));
+        attendanceLog.add(new AttendanceRecord(students[0].getId(), courses[0].getCourseId(), "Present"));
+        attendanceLog.add(new AttendanceRecord(students[1].getId(), courses[1].getCourseId(), "Absent"));
+        attendanceLog.add(new AttendanceRecord(students[2].getId(), courses[2].getCourseId(), "Late")); // invalid
+        attendanceLog.add(new AttendanceRecord(students[3].getId(), courses[0].getCourseId(), "Present"));
 
         System.out.println("\nAttendance Records:");
         for (AttendanceRecord record : attendanceLog) {
