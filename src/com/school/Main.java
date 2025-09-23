@@ -5,33 +5,34 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // Create Students
-        Student[] students = {
-            new Student("Alice", "Grade 10"),
-            new Student("Bob", "Grade 11"),
-            new Student("Charlie", "Grade 12"),
-            new Student("David", "Grade 10"),
-            new Student("Eva", "Grade 11")
-        };
+        // Create and populate ArrayLists
+        ArrayList<Student> students = new ArrayList<>();
+        students.add(new Student("Alice", "Grade 10"));
+        students.add(new Student("Bob", "Grade 11"));
+        students.add(new Student("Charlie", "Grade 12"));
+        students.add(new Student("David", "Grade 10"));
+        students.add(new Student("Eva", "Grade 11"));
 
-        // Create Teachers
+        ArrayList<Course> courses = new ArrayList<>();
+        courses.add(new Course("Mathematics"));
+        courses.add(new Course("Physics"));
+        courses.add(new Course("Chemistry"));
+        courses.add(new Course("Biology"));
+
+        ArrayList<AttendanceRecord> attendanceLog = new ArrayList<>();
+        attendanceLog.add(new AttendanceRecord(students.get(0).getId(), courses.get(0).getCourseId(), "Present"));
+        attendanceLog.add(new AttendanceRecord(students.get(1).getId(), courses.get(1).getCourseId(), "Absent"));
+        attendanceLog.add(new AttendanceRecord(students.get(2).getId(), courses.get(2).getCourseId(), "Late")); // invalid
+        attendanceLog.add(new AttendanceRecord(students.get(3).getId(), courses.get(0).getCourseId(), "Present"));
+
+        // Teachers and Staff (unchanged)
         Teacher[] teachers = {
             new Teacher("Mr. Smith", "Mathematics"),
             new Teacher("Ms. Johnson", "Physics")
         };
-
-        // Create Staff
         Staff[] staffMembers = {
             new Staff("Mrs. Brown", "Administrator"),
             new Staff("Mr. Green", "Janitor")
-        };
-
-        // Create Courses
-        Course[] courses = {
-            new Course("Mathematics"),
-            new Course("Physics"),
-            new Course("Chemistry"),
-            new Course("Biology")
         };
 
         System.out.println("Student Details:");
@@ -54,16 +55,15 @@ public class Main {
             c.display();
         }
 
-        // Attendance Records
-        List<AttendanceRecord> attendanceLog = new ArrayList<>();
-        attendanceLog.add(new AttendanceRecord(students[0].getId(), courses[0].getCourseId(), "Present"));
-        attendanceLog.add(new AttendanceRecord(students[1].getId(), courses[1].getCourseId(), "Absent"));
-        attendanceLog.add(new AttendanceRecord(students[2].getId(), courses[2].getCourseId(), "Late")); // invalid
-        attendanceLog.add(new AttendanceRecord(students[3].getId(), courses[0].getCourseId(), "Present"));
-
         System.out.println("\nAttendance Records:");
         for (AttendanceRecord record : attendanceLog) {
             record.displayRecord();
         }
+
+        // Save data to files
+        FileStorageService storage = new FileStorageService();
+        storage.saveData(students, "students.txt");
+        storage.saveData(courses, "courses.txt");
+        storage.saveData(attendanceLog, "attendance_log.txt");
     }
 }

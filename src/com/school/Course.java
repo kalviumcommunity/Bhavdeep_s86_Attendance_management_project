@@ -1,6 +1,6 @@
 package com.school;
 
-public class Course {
+public class Course implements Storable {
     private static int nextCourseIdCounter = 101; // static counter for auto-ID
     private int courseId;
     private String courseName;
@@ -23,5 +23,10 @@ public class Course {
     // Display method
     public void display() {
         System.out.println("Course ID: C" + courseId + ", Name: " + courseName);
+    }
+
+    @Override
+    public String toDataString() {
+        return courseId + "," + courseName;
     }
 }
