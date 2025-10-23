@@ -35,11 +35,7 @@ public class Main {
         courses.add(c3);
         courses.add(c4);
 
-        ArrayList<AttendanceRecord> attendanceLog = new ArrayList<>();
-        attendanceLog.add(new AttendanceRecord(s1, c1, "Present"));
-        attendanceLog.add(new AttendanceRecord(s2, c2, "Absent"));
-        attendanceLog.add(new AttendanceRecord(s3, c3, "Late")); // invalid, will be set to 'Invalid'
-        attendanceLog.add(new AttendanceRecord(s4, c1, "Present"));
+    // We'll use AttendanceService to manage attendance records
 
         // Teachers and Staff
         Teacher tA = new Teacher("Mr. Smith", "Mathematics");
@@ -70,13 +66,24 @@ public class Main {
             c.display();
         }
 
-        System.out.println("\nAttendance Records:");
-        for (AttendanceRecord record : attendanceLog) {
-            record.displayRecord();
-        }
-
-        // Save data to files
+        // Initialize storage and attendance service
         FileStorageService storage = new FileStorageService();
+        AttendanceService attendanceService = new AttendanceService(storage);
+
+        // Mark attendance using object-based method
+        attendanceService.markAttendance(s1, c1, "Present");
+        attendanceService.markAttendance(s2, c2, "Absent");
+        attendanceService.markAttendance(s3, c3, "Late"); // invalid status -> 'Invalid'
+        attendanceService.markAttendance(s4, c1, "Present");
+
+        System.out.println("\nAll Attendance Records (via attendanceService):");
+        attendanceService.displayAttendanceLog();
+
+        System.out.println("\nAttendance Records for Student: " + s1.getName());
+        attendanceService.displayAttendanceLog(s1);
+
+        System.out.println("\nAttendance Records for Course: " + c1.getCourseName());
+        attendanceService.displayAttendanceLog(c1);
 
         // If saving students from a mixed Person list, filter for Student instances
         List<Student> studentsToSave = new ArrayList<>();
@@ -88,6 +95,8 @@ public class Main {
 
         storage.saveData(studentsToSave, "students.txt");
         storage.saveData(courses, "courses.txt");
-        storage.saveData(attendanceLog, "attendance_log.txt");
+
+        // Also save attendance via the service (this writes attendance_log.txt)
+        attendanceService.saveAttendanceData();
     }
 }
