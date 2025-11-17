@@ -6,9 +6,11 @@ import java.util.List;
 public class AttendanceService {
     private List<AttendanceRecord> attendanceLog;
     private FileStorageService storageService;
+    private RegistrationService registrationService;
 
-    public AttendanceService(FileStorageService storageService) {
+    public AttendanceService(FileStorageService storageService, RegistrationService registrationService) {
         this.storageService = storageService;
+        this.registrationService = registrationService;
         this.attendanceLog = new ArrayList<>();
     }
 
@@ -17,30 +19,14 @@ public class AttendanceService {
         attendanceLog.add(record);
     }
 
-    public void markAttendance(int studentId, int courseId, String status, List<Student> allStudents, List<Course> allCourses) {
-        Student s = findStudentById(studentId, allStudents);
-        Course c = findCourseById(courseId, allCourses);
+    public void markAttendance(int studentId, int courseId, String status) {
+        Student s = registrationService.findStudentById(studentId);
+        Course c = registrationService.findCourseById(courseId);
         if (s == null || c == null) {
             System.out.println("Could not find student or course for IDs: " + studentId + ", " + courseId);
             return;
         }
         markAttendance(s, c, status);
-    }
-
-    private Student findStudentById(int id, List<Student> allStudents) {
-        if (allStudents == null) return null;
-        for (Student s : allStudents) {
-            if (s.getId() == id) return s;
-        }
-        return null;
-    }
-
-    private Course findCourseById(int id, List<Course> allCourses) {
-        if (allCourses == null) return null;
-        for (Course c : allCourses) {
-            if (c.getCourseId() == id) return c;
-        }
-        return null;
     }
 
     public void displayAttendanceLog() {
