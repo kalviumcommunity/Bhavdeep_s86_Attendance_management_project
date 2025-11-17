@@ -93,3 +93,30 @@ To run this project:
 2. Compile: `javac src/com/school/*.java`
 3. Run: `java -cp src com.school.Main`
 4. Check `attendance_log.txt` for saved records.
+
+## Part 9: RegistrationService, Dependency Injection, and Enhanced File Persistence
+- Modified `Teacher.java` and `Staff.java` to implement the `Storable` interface with their respective `toDataString()` methods, enabling their data to be persisted to files.
+- Created a new `RegistrationService.java` class that acts as a centralized registry for managing:
+    - Students, Teachers, Staff members, and Courses
+    - Methods: `registerStudent()`, `registerTeacher()`, `registerStaff()`, `createCourse()`
+    - Lookup methods: `findStudentById()`, `findCourseById()`
+    - `getAllPeople()` to retrieve all registered persons (students, teachers, staff)
+    - `saveAllRegistrations()` to persist all managed lists to their respective files (`students.txt`, `teachers.txt`, `staff.txt`, `courses.txt`)
+- Refactored `AttendanceService.java`:
+    - Added dependency on `RegistrationService` through constructor injection
+    - Updated `markAttendance(int studentId, int courseId, String status)` to use `RegistrationService` for lookups instead of requiring list parameters
+    - Removed private helper methods for student/course lookup (now handled by `RegistrationService`)
+- Refactored `Main.java`:
+    - Implemented proper dependency injection: `FileStorageService` → `RegistrationService` → `AttendanceService`
+    - Used `RegistrationService` methods to register all students, teachers, staff, and courses
+    - Updated `displaySchoolDirectory()` to accept `RegistrationService` and call `getAllPeople()`
+    - Simplified attendance marking by using the ID-based method that leverages `RegistrationService`
+    - Calls `registrationService.saveAllRegistrations()` and `attendanceService.saveAttendanceData()` to persist all data
+- Demonstrated separation of concerns, dependency injection, and centralized management of school entities.
+- Successfully generates `teachers.txt` and `staff.txt` files along with existing data files.
+
+### How to Run
+1. Navigate to the project root directory.
+2. Compile: `javac src/com/school/*.java`
+3. Run: `java com.school.Main`
+4. Verify generated files: `students.txt`, `teachers.txt`, `staff.txt`, `courses.txt`, `attendance_log.txt`
