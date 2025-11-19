@@ -1,4 +1,4 @@
-101,Mathematics
-102,Physics
-103,Chemistry
-104,Biology
+101,Mathematics,3
+102,Physics,2
+103,Chemistry,4
+104,Biology,2
